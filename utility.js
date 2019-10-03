@@ -1,5 +1,6 @@
 const geolib = require('geolib')
 
+// Given two coordinates, return the distance between the two in miles
 const findDistance = (origin, destination) => {
     let meters = geolib.getDistance(
         { latitude: origin.lat, longitude: origin.lon },
@@ -10,6 +11,7 @@ const findDistance = (origin, destination) => {
     return approximateDistance
 }
 
+// Wait a few seconds
 const wait = (seconds) => {
     return new Promise(resolve => {
         setTimeout(() => {
@@ -18,6 +20,7 @@ const wait = (seconds) => {
     });
 }
 
+// Horizontally merges two array of objects
 const merge = (origin, destination) => {
     if (origin.length != destination.length) return null
     const len = origin.length
@@ -33,6 +36,7 @@ const merge = (origin, destination) => {
     return routeResolutions
 }
 
+// Output formatting for objects
 const objectSystemOut = (obj) => {
     console.log('{')
     for (const key in obj) {
@@ -47,9 +51,10 @@ const objectSystemOut = (obj) => {
     console.log('}')
 }
 
+// Given a station name remove error prone words
 const cleanStationName = (station) => {
     let stationName
-    //TODO SOME FANCY REGEX
+    //TODO REGEX
     if (station.includes("Berlin")) {
         stationName = encodeURI(station.replace("Reisezentrum Berlin", "").trim())
     } else {
@@ -58,6 +63,8 @@ const cleanStationName = (station) => {
     return stationName
 }
 
+// Given an array of stations remove null
+// null was returned for stations that did not meet criteria or were not found
 const cleanAcceptedStations = (acceptableStations) => {
     const startIndex = 0
     const cutOff = 5

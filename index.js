@@ -2,6 +2,7 @@ const { findDistance, merge, cleanStationName, wait, cleanAcceptedStations, obje
 const { Berlin, Hamburg } = require('./resource')
 const { getStationsInProximity, getStationData } = require('./service')
 
+//Given a state object, return stations within a radius
 const getStationsNear = async (stateData) => {
     const criteriaAcceptedStations = await getStationsInProximity(stateData)
         .then(proximityStations => {
@@ -15,10 +16,11 @@ const getStationsNear = async (stateData) => {
     return criteriaAcceptedStations
 }
 
+//Given an array of stations only return acceptance criteria accepted stations
 const aggregateAcceptableStations = (proximityStations, stateData) => {
     let acceptableStations = proximityStations.map(async station => {
         const stationName = cleanStationName(station.name)
-        const result = await getStationName(stationName, stateData.name, stateData.requirement)
+        const result = await validateStation(stationName, stateData.name, stateData.requirement)
         let resultObj = {
             name: result,
             lat: station.lat,
@@ -29,7 +31,8 @@ const aggregateAcceptableStations = (proximityStations, stateData) => {
     return Promise.all(acceptableStations).then((values) => { return values });
 }
 
-const getStationName = async (station, state, requirement) => {
+//Validates station and returns station name
+const validateStation = async (station, state, requirement) => {
     let isValid = false
     let stationName
     try {
@@ -38,7 +41,7 @@ const getStationName = async (station, state, requirement) => {
         isValid = stationData[requirement]
         stationName = stationData.name
     } catch (err) {
-        //Doesn't satisfy criteria
+        // Doesn't satisfy criteria and or not found
         // console.error(`Error 404 for request ${stationName}`)
         return null
     }
@@ -46,11 +49,8 @@ const getStationName = async (station, state, requirement) => {
     else return null
 }
 
-
 //Start Script
-
 //Get 5 center most stations in Berlin
-
 getStationsNear(Berlin)
     .then(async berlinStations => {
         console.log(`Berlin center most stations:`)
