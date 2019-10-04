@@ -6,7 +6,7 @@ const { getStationsInProximity, getStationData } = require('./service')
 const getStationsNear = async (stateData) => {
     const criteriaAcceptedStations = await getStationsInProximity(stateData)
         .then(proximityStations => {
-            return aggregateAcceptableStations(proximityStations, stateData)
+            return aggregateAcceptableStations(proximityStations.data, stateData)
         }).then(acceptableStations => {
             return cleanAcceptedStations(acceptableStations)
         })
@@ -37,7 +37,7 @@ const validateStation = async (station, state, requirement) => {
     let stationName
     try {
         const response = await getStationData(station, state)
-        const stationData = response.result[0]
+        const stationData = response.data.result[0]
         isValid = stationData[requirement]
         stationName = stationData.name
     } catch (err) {
