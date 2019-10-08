@@ -54,4 +54,11 @@ const nonNullArrayOfStations = [
     { name: 'Hamburg-Altona', lat: 53.552295, lon: 9.934459 },
     { name: 'Hamburg-Bergedorf', lat: 53.489151, lon: 10.206024 },
     { name: 'Hamburg-Harburg', lat: 53.456008, lon: 9.990332 }]
-module.exports = { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins }
+
+const Berlin = {
+    name: "Berlin",
+    long: 52.516667,
+    lat: 13.388889,
+    requirement: 'hasLocalPublicTransport'
+}
+module.exports = { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins, Berlin }

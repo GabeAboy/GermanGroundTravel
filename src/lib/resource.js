@@ -1,8 +1,10 @@
-require('dotenv/config')
+const path = require('path')
+const projPath = path.join(__dirname, '../../')
+require('dotenv').config({ path: projPath + '/.env' })
 
 const Berlin = {
     name: "Berlin",
-    long: 52.516667,
+    lon: 52.516667,
     lat: 13.388889,
     requirement: 'hasLocalPublicTransport'
 }
@@ -10,7 +12,7 @@ const Berlin = {
 const Hamburg = {
     name: "Hamburg",
     lat: 10.001389,
-    long: 53.565278,
+    lon: 53.565278,
     requirement: 'hasParking'
 }
 

@@ -1,8 +1,9 @@
 const geolib = require('geolib')
-const { Berlin, Hamburg } = require('./resource')
-const { getStationsInProximity, getStationData } = require('./service')
-const makeUtilities = require('./utilityFactory')()
+const { Berlin, Hamburg } = require('./lib/resource')
+const { getStationsInProximity, getStationData } = require('./server/service')
+const makeUtilities = require('./lib/utilityFactory')()
 const utilities = makeUtilities(geolib)
+
 //Given a state object, return stations within a radius
 const getStationsNear = async (stateData) => {
     const criteriaAcceptedStations = await getStationsInProximity(stateData)
@@ -85,6 +86,8 @@ getStationsNear(Berlin)
         routeDetails.forEach(station => {
             utilities.objectSystemOut(station)
         })
+    }).catch(err => {
+        console.error(`Error ${err}`)
     })
 
 

@@ -1,5 +1,5 @@
-const { getStationsInProximity, getStationData } = require('../../service')
-const { Berlin } = require('../../resource')
+const { getStationsInProximity, getStationData } = require('../../src/server/service')
+const { Berlin } = require('../resource')
 
 describe('getStationsInProximity', () => {
     it('Should return status 200 and data', async () => {

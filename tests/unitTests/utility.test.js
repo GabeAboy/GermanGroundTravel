@@ -1,6 +1,6 @@
 const { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins } = require('../resource')
 const geolib = require('geolib')
-const makeUtilities = require('../../utilityFactory')()
+const makeUtilities = require('../../src/lib/utilityFactory')()
 const utilities = makeUtilities(geolib)
 
 describe('cleanStationNameBerlin', () => {
