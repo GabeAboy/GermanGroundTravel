@@ -1,5 +1,5 @@
 const { findDistance, merge, cleanAcceptedStations, cleanStationName } = require('../../utility')
-const { nonNullArrayOfStations, arrayOfStations, merged, destination, origin } = require('../resource')
+const { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins } = require('../resource')
 
 describe('cleanStationNameBerlin', () => {
     const stationName = "Reisezentrum Berlin Alexanderplatz"
@@ -28,7 +28,6 @@ describe('cleanAcceptedStations', () => {
 })
 
 describe('cleanAcceptedStations', () => {
-    const station = "Reisezentrum Berlin Alexanderplatz"
     it('Should return an array', () => {
         expect(Array.isArray(cleanAcceptedStations(arrayOfStations))).toBeTruthy()
     })
@@ -36,25 +35,25 @@ describe('cleanAcceptedStations', () => {
 
 describe('Merge', () => {
     it('Should be return an array', () => {
-        expect(Array.isArray(merge(origin, destination))).toBeTruthy()
+        expect(Array.isArray(merge(origins, destinations))).toBeTruthy()
     })
 })
 
 describe('Merge', () => {
     it('Should be horizontal merge', () => {
-        expect(merge(origin, destination)).toMatchObject(merged)
+        expect(merge(origins, destinations)).toMatchObject(merged)
     })
 })
 
 describe('Merge', () => {
     it('Should only return 5 objects', () => {
-        expect(merge(origin, destination)).toHaveLength(5)
+        expect(merge(origins, destinations)).toHaveLength(5)
     })
 })
 
 describe('Merge', () => {
     it('Should only return proper array of objects', () => {
-        const route = merge(origin, destination)[0]
+        const route = merge(origins, destinations)[0]
         expect(route).toHaveProperty("origin")
         expect(route).toHaveProperty("destination")
         expect(route).toHaveProperty("distance")
@@ -62,10 +61,9 @@ describe('Merge', () => {
 })
 
 describe('findDistance', () => {
-    it('Should only return proper array of objects', () => {
-        const route = merge(origin, destination)[0]
-        expect(route).toHaveProperty("origin")
-        expect(route).toHaveProperty("destination")
-        expect(route).toHaveProperty("distance")
+    it('Should return the expected distance', () => {
+        const origin = origins[0]
+        const destination = destinations[0]
+        expect(findDistance(origin,destination)).toBe(159.39)
     })
 })

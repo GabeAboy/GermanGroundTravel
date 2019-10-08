@@ -1,11 +1,11 @@
-const origin =
+const origins =
     [{ name: 'Hamburg Dammtor', lat: 53.5608, lon: 9.98968 },
     { name: 'Hamburg Hbf', lat: 53.553722, lon: 10.00801 },
     { name: 'Hamburg-Altona', lat: 53.552295, lon: 9.934459 },
     { name: 'Hamburg-Bergedorf', lat: 53.489151, lon: 10.206024 },
     { name: 'Hamburg-Harburg', lat: 53.456008, lon: 9.990332 }]
 
-const destination =
+const destinations =
     [{ name: 'Alexanderplatz', lat: 52.521853, lon: 13.41124 },
     { name: 'Berlin-Friedrichstraße', lat: 52.520469, lon: 13.387174 },
     { name: 'Berlin Ostbahnhof', lat: 52.510483, lon: 13.433203 },
@@ -54,4 +54,4 @@ const nonNullArrayOfStations = [
     { name: 'Hamburg-Altona', lat: 53.552295, lon: 9.934459 },
     { name: 'Hamburg-Bergedorf', lat: 53.489151, lon: 10.206024 },
     { name: 'Hamburg-Harburg', lat: 53.456008, lon: 9.990332 }]
-module.exports = { nonNullArrayOfStations, arrayOfStations, merged, destination, origin }
+module.exports = { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins }
