@@ -1,14 +1,15 @@
-const { findDistance, merge, cleanStationName, wait, cleanAcceptedStations, objectSystemOut } = require('./utility')
+const geolib = require('geolib')
 const { Berlin, Hamburg } = require('./resource')
 const { getStationsInProximity, getStationData } = require('./service')
-
+const makeUtilities = require('./utilityFactory')()
+const utilities = makeUtilities(geolib)
 //Given a state object, return stations within a radius
 const getStationsNear = async (stateData) => {
     const criteriaAcceptedStations = await getStationsInProximity(stateData)
         .then(proximityStations => {
             return aggregateAcceptableStations(proximityStations.data, stateData)
         }).then(acceptableStations => {
-            return cleanAcceptedStations(acceptableStations)
+            return utilities.cleanAcceptedStations(acceptableStations)
         })
         .catch(err => {
             console.error(`Error ${err}`)
@@ -19,7 +20,7 @@ const getStationsNear = async (stateData) => {
 //Given an array of stations only return acceptance criteria accepted stations
 const aggregateAcceptableStations = (proximityStations, stateData) => {
     let acceptableStations = proximityStations.map(async station => {
-        const stationName = cleanStationName(station.name)
+        const stationName = utilities.cleanStationName(station.name)
         const result = await validateStation(stationName, stateData.name, stateData.requirement)
         let resultObj = {
             name: result,
@@ -55,34 +56,34 @@ getStationsNear(Berlin)
     .then(async berlinStations => {
         console.log(`Berlin center most stations:`)
         berlinStations.forEach(station => {
-            objectSystemOut(station)
+            utilities.objectSystemOut(station)
         })
         console.log('---\n')
         //Wait to avoid server timeout
-        await wait(2);
+        await utilities.wait(2);
         return berlinStations
     }).then(async berlinStations => {
         //Get 5 center most stations in Hamburg
         console.log(`Hamburg center most stations:`)
         const hamburgStations = await getStationsNear(Hamburg)
         hamburgStations.forEach(station => {
-            objectSystemOut(station)
+            utilities.objectSystemOut(station)
         })
         console.log('---\n')
         //Merge stations assuming there exist a travel route between them
-        const routes = merge(hamburgStations, berlinStations)
+        const routes = utilities.merge(hamburgStations, berlinStations)
         return routes
     }).then(routes => {
         //Calculate distances between routes
         routes.forEach(route => {
-            route.distance = findDistance(route.origin, route.destination)
+            route.distance = utilities.findDistance(route.origin, route.destination)
         })
         return routes
     }).then(routeDetails => {
         //5 station pairs from Hamburg to Berlin and their travel distances
         console.log(`Itinerary, Hamburg to Berlin station options:`)
         routeDetails.forEach(station => {
-            objectSystemOut(station)
+            utilities.objectSystemOut(station)
         })
     })
 
