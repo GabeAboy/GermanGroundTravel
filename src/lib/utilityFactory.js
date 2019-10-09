@@ -55,7 +55,7 @@ module.exports = function makeUtilities() {
         // Given a station name remove error prone words
         const cleanStationName = (station) => {
             let stationName
-            //TODO REGEX
+            //TODO Adapter Pattern
             if (station.includes("Berlin")) {
                 stationName = encodeURI(station.replace("Reisezentrum Berlin", "").trim())
             } else {

@@ -7,6 +7,8 @@ const getStationsInProximity = async (stateData, radius) => {
             if (response.data) return response
         })
         .catch(err => {
+            // TODO mocks server for testing this section, 
+            // API doesn't return any other status code other than 200
             console.error(`Error ${err}`)
             return err
         })

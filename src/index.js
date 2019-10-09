@@ -5,8 +5,8 @@ const makeUtilities = require('./lib/utilityFactory')()
 const utilities = makeUtilities(geolib)
 
 //Given a state object, return stations within a radius
-const getStationsNear = async (stateData, radius) => {
-    console.log(`Looking for stations within a ${radius} radius`)
+const getStationsNear = async (stateData, radius, serverCallCount = 0) => {
+    console.log(`Looking for ${stateData.name} stations within a ${radius} mile radius`)
     const criteriaAcceptedStations = await getStationsInProximity(stateData, radius)
         .then(async proximityStations => {
             return await aggregateAcceptableStations(proximityStations.data, stateData)
@@ -17,7 +17,12 @@ const getStationsNear = async (stateData, radius) => {
             if (fiveNearestStations === null) {
                 console.log("Please wait while we check further")
                 await utilities.wait(2)
-                return getStationsNear(stateData, radius + 5)
+                // Timeout recursive function if too many subsequent calls are made without resolve 
+                serverCallCount++
+                if (serverCallCount >= 3) {
+                    throw new Error(`Too many calls to ${stateData.name} within ${radius} radius`)
+                }
+                return getStationsNear(stateData, radius + 5, serverCallCount)
             }
             return fiveNearestStations
         })
@@ -27,6 +32,7 @@ const getStationsNear = async (stateData, radius) => {
 //Given an array of stations only return acceptance criteria accepted stations
 const aggregateAcceptableStations = (proximityStations, stateData) => {
     let acceptableStations = proximityStations.map(async station => {
+        //Notes: Micro-Serviced APIs handles names differently
         const stationName = utilities.cleanStationName(station.name)
         const result = await validateStation(stationName, stateData.name, stateData.requirement)
         let resultObj = {
@@ -59,6 +65,7 @@ const validateStation = async (station, state, requirement) => {
 
 //Start Script
 //Get 5 center most stations in Berlin
+//Sudo Chain of responsibility 
 getStationsNear(Berlin, 1)
     .then(async berlinStations => {
         console.log(`Berlin center most stations:`)
@@ -72,12 +79,10 @@ getStationsNear(Berlin, 1)
     }).then(async berlinStations => {
         //Get 5 center most stations in Hamburg
         console.log(`Hamburg center most stations:`)
-        const hamburgStations = await getStationsNear(Hamburg, 15)
+        const hamburgStations = await getStationsNear(Hamburg, 10)
         hamburgStations.forEach(station => {
             utilities.objectSystemOut(station)
         })
-
-        // console.log(hamburgStations)
         console.log('---\n')
         //Merge stations assuming there exist a travel route between them
         return utilities.merge(hamburgStations, berlinStations)
@@ -97,4 +102,4 @@ getStationsNear(Berlin, 1)
         console.error(`Error ${err}`)
     })
 
-
+module.exports = { getStationsNear }
