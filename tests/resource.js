@@ -48,6 +48,17 @@ const arrayOfStations =
     { name: null, lat: 53.6554, lon: 9.7978 },
     { name: null, lat: 53.387529, lon: 10.10894 }]
 
+const lessThanFiveAcceptableStations =
+    [{ name: null, lat: 53.669223, lon: 10.234857 },
+    { name: null, lat: 53.470975, lon: 9.686119 },
+    { name: 'Hamburg Hbf', lat: 53.553722, lon: 10.00801 },
+    { name: 'Hamburg-Altona', lat: 53.552295, lon: 9.934459 },
+    { name: 'Hamburg-Bergedorf', lat: 53.489151, lon: 10.206024 },
+    { name: 'Hamburg-Harburg', lat: 53.456008, lon: 9.990332 },
+    { name: null, lat: 53.6554, lon: 9.7978 },
+    { name: null, lat: 53.387529, lon: 10.10894 }]
+
+
 const nonNullArrayOfStations = [
     { name: 'Hamburg Dammtor', lat: 53.5608, lon: 9.98968 },
     { name: 'Hamburg Hbf', lat: 53.553722, lon: 10.00801 },
@@ -61,4 +72,4 @@ const Berlin = {
     lat: 13.388889,
     requirement: 'hasLocalPublicTransport'
 }
-module.exports = { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins, Berlin }
+module.exports = { lessThanFiveAcceptableStations, nonNullArrayOfStations, arrayOfStations, merged, destinations, origins, Berlin }

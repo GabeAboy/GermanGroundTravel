@@ -3,7 +3,15 @@ const { Berlin } = require('../resource')
 
 describe('getStationsInProximity', () => {
     it('Should return status 200 and data', async () => {
-        const response = await getStationsInProximity(Berlin)
+        const response = await getStationsInProximity(Berlin, 30)
+        expect(response.status).toBe(200)
+        expect(response.data).not.toBe([])
+    })
+})
+
+describe('getStationsInProximity', () => {
+    it('Should return valid data with a radius of 0 dynamically increasing', async () => {
+        const response = await getStationsInProximity(Berlin, 0)
         expect(response.status).toBe(200)
         expect(response.data).not.toBe([])
     })
@@ -13,7 +21,7 @@ describe('getStationsInProximity', () => {
     it('Should not return any data', async () => {
         const Boston = { lat: 42.3601, lon: 71.0589 }
         // Api returns 200 for invalid queries - expect(response.status).toBe(404)
-        const response = await getStationsInProximity(Boston)
+        const response = await getStationsInProximity(Boston, 30)
         expect(response.data).toStrictEqual([])
     })
 })

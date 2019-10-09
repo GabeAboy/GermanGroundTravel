@@ -1,4 +1,4 @@
-const { nonNullArrayOfStations, arrayOfStations, merged, destinations, origins } = require('../resource')
+const { lessThanFiveAcceptableStations, nonNullArrayOfStations, arrayOfStations, merged, destinations, origins } = require('../resource')
 const geolib = require('geolib')
 const makeUtilities = require('../../src/lib/utilityFactory')()
 const utilities = makeUtilities(geolib)
@@ -18,7 +18,7 @@ describe('cleanStationNameHamburg', () => {
 })
 
 describe('cleanAcceptedStations', () => {
-    it('Should not contain null', () => {
+    it('Returned array should not contain null', () => {
         expect(utilities.cleanAcceptedStations(arrayOfStations)).toMatchObject(nonNullArrayOfStations)
     })
 })
@@ -32,6 +32,12 @@ describe('cleanAcceptedStations', () => {
 describe('cleanAcceptedStations', () => {
     it('Should return an array', () => {
         expect(Array.isArray(utilities.cleanAcceptedStations(arrayOfStations))).toBeTruthy()
+    })
+})
+
+describe('cleanAcceptedStations', () => {
+    it('Should return null', () => {
+        expect(utilities.cleanAcceptedStations(lessThanFiveAcceptableStations)).toBe(null)
     })
 })
 

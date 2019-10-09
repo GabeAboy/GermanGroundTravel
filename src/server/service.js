@@ -1,7 +1,7 @@
 const axios = require('axios')
 const { apiRoot, header } = require('../lib/resource')
-const getStationsInProximity = async (stateData) => {
-    const url = `${apiRoot}/reisezentren/v1/reisezentren/loc/${stateData.lon}/${stateData.lat}/30`
+const getStationsInProximity = async (stateData, radius) => {
+    const url = `${apiRoot}/reisezentren/v1/reisezentren/loc/${stateData.lon}/${stateData.lat}/${radius}`
     const result = await axios.get(url, header)
         .then(response => {
             if (response.data) return response

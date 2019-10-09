@@ -70,7 +70,8 @@ module.exports = function makeUtilities() {
             const startIndex = 0
             const cutOff = 5
             const criteriaAcceptedStations = acceptableStations.filter(station => station.name != null)
-            return criteriaAcceptedStations.splice(startIndex, cutOff)
+            //If there are not 5 accepted stations return null
+            return (criteriaAcceptedStations.length >= 5) ? criteriaAcceptedStations.splice(startIndex, cutOff) : null
         }
 
         return {
